@@ -1,6 +1,7 @@
 const Graphics = PIXI.Graphics;
 const Text = PIXI.Text;
 const Container = PIXI.Container;
+const Point = PIXI.Point;
 
 const Application = PIXI.Application;
 const Sprite = PIXI.Sprite;
