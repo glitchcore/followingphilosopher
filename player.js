@@ -43,11 +43,11 @@ function Player(scene, color) {
         .endFill();
     self.addChild(self.head);
 
-    const light = new PIXI.lights.PointLight(0xffffff, 1, 100);
+    const light = new PIXI.lights.PointLight(0xffffff, 2, 100);
     // light.falloff = [-100, 1000, 0];
     scene.addChild(light);
 
-    const light_1 = new PIXI.lights.PointLight(0xffffff, 1, 50);
+    const light_1 = new PIXI.lights.PointLight(0xffffff, 2, 50);
     scene.addChild(light_1);
 
     self.update = (delta, now) => {
@@ -59,8 +59,8 @@ function Player(scene, color) {
         self.x += self.v * Math.sin(-self.rotation);
         self.y += self.v * Math.cos(-self.rotation);
 
-        light.x = self.x - 100 * Math.sin(-self.rotation - Math.sin(self.walk_t/20) * 0.2);
-        light.y = self.y - 100 * Math.cos(-self.rotation - Math.sin(self.walk_t/20) * 0.2);
+        light.x = self.x - 100 * Math.sin(-self.rotation - Math.sin(self.walk_t/20) * 0.2 + Math.sin(now/300) * 0.1);
+        light.y = self.y - 100 * Math.cos(-self.rotation - Math.sin(self.walk_t/20) * 0.2 + Math.sin(now/300) * 0.1);
 
         light_1.x = self.x;
         light_1.y = self.y;
@@ -69,8 +69,6 @@ function Player(scene, color) {
     };
 
     console.log("add player");
-
-    scene.addChild(self);
 
     // self.scale = 0.5;
 

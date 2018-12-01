@@ -1,20 +1,32 @@
+/*
+const stations = [
+    {x:10, y:20, type:"bend", next:1},
+    {x:210, y:20, type:"bend", next:2},
+    {x:210, y:220, type:"bend", next:3},
+    {x:330, y:330, type:"bend", next:4},
+    {x:220, y:330, type:"bend", next:5},
+    {x:110, y:50, type:"bend", next:6},
+    {x:10, y:20, type:"bend", next:0},
+];
+*/
+
+const stations = [
+    {x:10, y:20, type:"bend", next:1},
+    {x:210, y:20, type:"bend", next:2},
+    {x:210, y:220, type:"bend", next:3},
+    {x:100, y:220, type:"bend", next:false},
+];
+
+
 function Game_scene(pixi) {
     let scene = new Container();
 
     const margin_left = 250;
 
-    /*
-    {
-        let message = new Text("Game", RED_STYLE_H1);
-        message.position.set(pixi.screen.width/2 - margin_left, 50);
-        scene.addChild(message);
-    }
-    */
-
     for (let x = 0; x < pixi.screen.width; x += 30) {
         for (let y = 0; y < pixi.screen.height; y += 30) {
             let sq = new Graphics()
-                .beginFill(0xFFFFFF)
+                .beginFill(0x333333)
                 .drawRect(0, 0, 10, 10)
                 .endFill();
             const sq_diffuse = Sprite.from(pixi.renderer.generateTexture(sq));
@@ -34,12 +46,63 @@ function Game_scene(pixi) {
             sq_block.x = x;
             sq_block.y = y;
         }
-
     }
 
-    let player = Player(scene, 0xFFFFFF);
+    let player = Player(scene, 0x4499FF);
     player.x = 300;
     player.y = 200;
+    scene.addChild(player);
+
+    stations.forEach(station => {
+        if(station.next !== false) {
+            let g_diffuse = Sprite.from(pixi.renderer.generateTexture(new Graphics()
+                .lineStyle(5, 0xFFFFFF, 1)
+                .moveTo(0, 0)
+                .lineTo(stations[station.next].x - station.x, stations[station.next].y - station.y)
+            ));
+            g_diffuse.parentGroup = diffuseGroup;
+            let g_normal = Sprite.from(pixi.renderer.generateTexture(new Graphics()
+                .lineStyle(5, 0x8080ff, 1)
+                .moveTo(0, 0)
+                .lineTo(stations[station.next].x - station.x, stations[station.next].y - station.y)
+            ));
+            g_normal.parentGroup = normalGroup;
+
+            var g = new PIXI.Container();
+            g.addChild(g_diffuse, g_normal);
+            g.x = -station.x;
+            g.y = station.y;
+            scene.addChild(g);
+        }
+
+        let s_diffuse = Sprite.from(pixi.renderer.generateTexture(new Graphics()
+            .beginFill(0x44FF44)
+            .drawCircle(0, 0, 10)
+            .endFill()
+        ));
+        s_diffuse.parentGroup = diffuseGroup;
+        let s_normal = Sprite.from(pixi.renderer.generateTexture(new Graphics()
+            .beginFill(0x8080ff)
+            .drawCircle(0, 0, 10)
+            .endFill()
+        ));
+        s_normal.parentGroup = normalGroup;
+
+        var s = new PIXI.Container();
+        s.addChild(s_diffuse, s_normal);
+        scene.addChild(s);
+        s.x = station.x - 7.5;
+        s.y = station.y - 7.5;
+        scene.addChild(s);
+    });
+
+    /*
+    {
+        let message = new Text("Game", RED_STYLE_H1);
+        message.position.set(pixi.screen.width/2 - margin_left, 50);
+        scene.addChild(message);
+    }
+    */
 
     scene.update = (delta, now) => {
         player.update(delta, now);

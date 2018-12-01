@@ -8,6 +8,13 @@ function app(pixi) {
 
     PIXI.utils.sayHello("Drop to stack begin!");
 
+    stage.addChild(
+        // put all layers for deferred rendering of normals
+        new Layer(diffuseGroup),
+        new Layer(normalGroup),
+        new Layer(lightGroup),
+    );
+
     intro_scene = Intro_scene(pixi);
     intro_scene.visible = false;
     stage.addChild(intro_scene);
@@ -51,13 +58,6 @@ function app(pixi) {
     block.x = 200;
     block.y = 300;
     */
-
-    stage.addChild(
-        // put all layers for deferred rendering of normals
-        new Layer(diffuseGroup),
-        new Layer(normalGroup),
-        new Layer(lightGroup),
-    );
 }
 
 let current_scene = null;
