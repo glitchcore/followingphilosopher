@@ -34,7 +34,7 @@ function Game_scene(pixi) {
 
             let normal_sq = new Graphics()
                 .beginFill(0x8080ff)
-                .drawRect(0, 0, 10, 10)
+                .drawRect(0, 0, 2, 1)
                 .endFill();
             const sq_normal = Sprite.from(pixi.renderer.generateTexture(normal_sq));
             sq_normal.parentGroup = normalGroup;
@@ -94,13 +94,13 @@ function Game_scene(pixi) {
 
         let s_diffuse = Sprite.from(pixi.renderer.generateTexture(new Graphics()
             .beginFill(0xa6fd29)
-            .drawCircle(0, 0, 10)
+            .drawCircle(0, 0, 2)
             .endFill()
         ));
         s_diffuse.parentGroup = diffuseGroup;
         let s_normal = Sprite.from(pixi.renderer.generateTexture(new Graphics()
             .beginFill(0x8080ff)
-            .drawCircle(0, 0, 10)
+            .drawCircle(0, 0, 2)
             .endFill()
         ));
         s_normal.parentGroup = normalGroup;
@@ -108,8 +108,8 @@ function Game_scene(pixi) {
         var s = new PIXI.Container();
         s.addChild(s_diffuse, s_normal);
         scene.addChild(s);
-        s.x = station.x - 7.5;
-        s.y = station.y - 7.5;
+        s.x = station.x;
+        s.y = station.y;
         scene.addChild(s);
     });
 
