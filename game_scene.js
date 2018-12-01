@@ -3,33 +3,89 @@ function Game_scene(pixi) {
 
     const margin_left = 250;
 
-    let background = new Graphics()
+    /*
+    const bg_normals = Sprite.fromImage('images/BGTextureNORM.jpg');
+    bg_normals.parentGroup = normalGroup;
+    const bg_diffuse = Sprite.fromImage('images/BGTextureTest.jpg');
+    bg_diffuse.parentGroup = diffuseGroup;
+
+    const background = new Container();
+    background.addChild(
+        bg_normals,
+        bg_diffuse
+    );
+    scene.addChild(background);
+    */
+
+    /*let background = new Graphics()
         .beginFill(0x000000)
         .drawRect(0, 0, pixi.screen.width, pixi.screen.height)
         .endFill();
+    */
 
-    scene.addChild(background);
-
-    let player = Player(scene, 0xFFFFFF);
-    player.x = 300;
-    player.y = 200;
-
+    /*
     {
         let message = new Text("Game", RED_STYLE_H1);
         message.position.set(pixi.screen.width/2 - margin_left, 50);
         scene.addChild(message);
     }
+    */
+
+    /*
+    for (let x = 0; x < scene.width; x += 100) {
+        for (let y = 0; y < scene.height; y += 100) {
+            let sq = new Graphics()
+                .beginFill(0xCCCCCC)
+                .drawRect(x, y, 30, 30)
+                .endFill();
+            scene.addChild(sq);
+        }
+    }
+    */
+
+    console.log("w:", pixi.screen.width, "h:", pixi.screen.height);
+
+    for (let x = 0; x < pixi.screen.width; x += 30) {
+        for (let y = 0; y < pixi.screen.height; y += 30) {
+            let sq = new Graphics()
+                .beginFill(0xFFFFFF)
+                .drawRect(0, 0, 10, 10)
+                .endFill();
+            const sq_diffuse = Sprite.from(pixi.renderer.generateTexture(sq));
+            sq_diffuse.parentGroup = diffuseGroup;
+
+            let normal_sq = new Graphics()
+                .beginFill(0x8080ff)
+                .drawRect(0, 0, 10, 10)
+                .endFill();
+            const sq_normal = Sprite.from(pixi.renderer.generateTexture(normal_sq));
+            sq_normal.parentGroup = normalGroup;
+
+            var sq_block = new PIXI.Container();
+            sq_block.addChild(sq_normal, sq_diffuse);
+            scene.addChild(sq_block);
+
+            sq_block.x = x;
+            sq_block.y = y;
+        }
+
+    }
+
+    let player = Player(scene, 0xFFFFFF);
+    player.x = 300;
+    player.y = 200;
 
     scene.update = (delta, now) => {
         player.update(delta, now);
     };
 
     scene.key_handler = (key, isPress) => {
+        
         if(isPress && key === 39) {
-            player.vr = -0.1;
+            player.vr = 0.1;
         }
         if(isPress && key === 37) {
-            player.vr = 0.1;
+            player.vr = -0.1;
         }
         if(!isPress && (key === 39 || key === 37)) {
             player.vr = 0;
@@ -44,7 +100,6 @@ function Game_scene(pixi) {
         if(!isPress && (key === 38 || key === 40)) {
             player.v = 0;
         }
-
     };
 
     scene.select = () => {

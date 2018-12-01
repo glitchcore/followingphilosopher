@@ -1,8 +1,9 @@
 function Player(scene, color) {
     const LINE_WIDTH = 8;
-    const BODY_RADIUS = 30;
+    const BODY_RADIUS = 60;
     const LEG_OFFSET = 15;
     const LEG_RADIUS = 15;
+    const HEAD_RADIUS = 20;
 
     let self = new Container();
     self.v = 0;
@@ -20,7 +21,7 @@ function Player(scene, color) {
 
     self.body = new Graphics()
         .beginFill(color)
-        .drawCircle(0, 0, BODY_RADIUS)
+        .drawRect(-BODY_RADIUS/2, -BODY_RADIUS/4, BODY_RADIUS, BODY_RADIUS/2)
         .endFill();
     self.addChild(self.body);
 
@@ -36,6 +37,17 @@ function Player(scene, color) {
         .endFill();
     self.addChild(self.left_leg);
 
+    self.head = new Graphics()
+        .beginFill(color)
+        .drawCircle(0, 0, HEAD_RADIUS)
+        .endFill();
+    self.addChild(self.head);
+
+    const light = new PIXI.lights.PointLight(0xffffff, 0.5, 5000);
+    light.x = pixi.screen.width / 2;
+    light.y = pixi.screen.height / 2;
+    scene.addChild(light);
+
 
     self.update = (delta, now) => {
         if(self.v){
@@ -45,8 +57,11 @@ function Player(scene, color) {
         self.right_leg.y = Math.sin(self.walk_t/5) * 20;
         self.left_leg.y = -Math.sin(self.walk_t/5) * 20;
 
-        self.x += self.v * Math.sin(self.rotation);
-        self.y += self.v * Math.cos(self.rotation);
+        self.x += self.v * Math.sin(-self.rotation);
+        self.y += self.v * Math.cos(-self.rotation);
+
+        light.x = self.x;
+        light.y = self.y;
 
         self.rotation += self.vr;
     };

@@ -4,7 +4,7 @@ let key_handler = (key, isPress) => {};
 let intro_scene, game_scene;
 
 function app(pixi) {
-    let stage = pixi.stage;
+    var stage = pixi.stage = new Stage();
 
     PIXI.utils.sayHello("Drop to stack begin!");
 
@@ -39,6 +39,25 @@ function app(pixi) {
     pixi.ticker.add(delta => update(delta, performance.now()));
 
     select_scene(game_scene);
+
+    /*var block = new PIXI.Container();
+    const block_diffuse = Sprite.fromImage('images/block.png');
+    block_diffuse.parentGroup = diffuseGroup;
+    const block_normal = Sprite.fromImage('images/blockNormalMap.png');
+    block_normal.parentGroup = normalGroup;
+    block.addChild(block_normal, block_diffuse);
+    background.addChild(block);
+
+    block.x = 200;
+    block.y = 300;
+    */
+
+    stage.addChild(
+        // put all layers for deferred rendering of normals
+        new Layer(diffuseGroup),
+        new Layer(normalGroup),
+        new Layer(lightGroup),
+    );
 }
 
 let current_scene = null;

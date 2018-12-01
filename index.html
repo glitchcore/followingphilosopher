@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="style.css">
   <script src="pixi.min.js"></script>
   <script src="pixi-particles.min.js"></script>
+  <script src="pixi-layers.js"></script>
+  <script src="pixi-lights.js"></script>
 
   <script src="player.js"></script>
 
@@ -15,13 +17,14 @@
 
   <script src="app.js"></script>
 
-  <script src="ParticleExample.js"></script>
+  <!-- <script src="ParticleExample.js"></script> -->
 </head>
 <body>
     <script type="text/javascript">
         let pixi = new PIXI.Application({ 
             width: window.innerWidth * 0.99,
             height: window.innerHeight * 0.99,
+            backgroundColor: 0x000000,
             antialias: true,    // default: false
             transparent: true, // default: false
             resolution: 1       // default: 1
@@ -31,6 +34,8 @@
 
         app(pixi);
     </script>
+
+    <!-- <script src="light.js"></script> -->
 
     <!--
     <canvas id="stage" width="400" height="400"></canvas>

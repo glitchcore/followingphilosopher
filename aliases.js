@@ -2,6 +2,20 @@ const Graphics = PIXI.Graphics;
 const Text = PIXI.Text;
 const Container = PIXI.Container;
 
+const Application = PIXI.Application;
+const Sprite = PIXI.Sprite;
+const lights = PIXI.lights;
+const display = PIXI.display;
+
+const diffuseGroup = lights.diffuseGroup;
+const normalGroup = lights.normalGroup;
+const lightGroup = lights.lightGroup;
+
+const Layer = display.Layer;
+const Stage = display.Stage;
+
+const light = new PIXI.lights.PointLight(0xFFFFFF, 1);
+
 let RED_STYLE_H1 = new PIXI.TextStyle({
   fontFamily: "Arial",
   fontSize: 56,
@@ -77,3 +91,14 @@ function hitTestRectangle(r1, r2) {
   //`hit` will be either `true` or `false`
   return hit;
 };
+
+function createPair(diffuseTex, normalTex) {
+    var container = new PIXI.Container();
+    var diffuseSprite = new PIXI.Sprite(diffuseTex);
+    diffuseSprite.parentGroup = PIXI.lights.diffuseGroup;
+    var normalSprite = new PIXI.Sprite(normalTex);
+    normalSprite.parentGroup = PIXI.lights.normalGroup;
+    container.addChild(diffuseSprite);
+    container.addChild(normalSprite);
+    return container;
+}
