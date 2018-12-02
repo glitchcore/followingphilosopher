@@ -5,6 +5,8 @@ function Player(scene, color) {
     const LEG_RADIUS = 15/2;
     const HEAD_RADIUS = 20/2;
 
+    const LIGHT_DISTANCE = 50;
+
     let self = new Container();
     self.v = 0;
     self.vr = 0;
@@ -35,12 +37,12 @@ function Player(scene, color) {
         .endFill();
     self.addChild(self.head);
 
-    const light = new PIXI.lights.PointLight(0x55ffe1, 1, 100);
-    // light.falloff = [-100, 1000, 0];
+    const light = new PIXI.lights.PointLight(0x55ffe1, 2, 300);
+    light.lightHeight = 0.002;
     scene.addChild(light);
 
-    const light_1 = new PIXI.lights.PointLight(0xffffff, 0.15, 50);
-    scene.addChild(light_1);
+    //const light_1 = new PIXI.lights.PointLight(0xffffff, 0.15, 50);
+    //scene.addChild(light_1);
 
     self.update = (delta, now) => {
         self.walk_t += delta * self.v;
@@ -56,11 +58,11 @@ function Player(scene, color) {
         self.x += self.v * Math.sin(-self.rotation);
         self.y += self.v * Math.cos(-self.rotation);
 
-        light.x = self.x - 100 * Math.sin(-self.rotation - Math.sin(self.walk_t/20) * 0.2 + Math.sin(now/300) * 0.1);
-        light.y = self.y - 100 * Math.cos(-self.rotation - Math.sin(self.walk_t/20) * 0.2 + Math.sin(now/300) * 0.1);
+        light.x = self.x - LIGHT_DISTANCE * Math.sin(-self.rotation - Math.sin(self.walk_t/20) * 0.2 + Math.sin(now/300) * 0.1);
+        light.y = self.y - LIGHT_DISTANCE * Math.cos(-self.rotation - Math.sin(self.walk_t/20) * 0.2 + Math.sin(now/300) * 0.1);
 
-        light_1.x = self.x;
-        light_1.y = self.y;
+        // light_1.x = self.x;
+        // light_1.y = self.y;
 
         self.rotation += self.vr;
     };

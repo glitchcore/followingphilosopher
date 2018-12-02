@@ -142,7 +142,6 @@ function Man(scene, color) {
 
     self.kill = () => {
         kill_light = new PIXI.lights.PointLight(0xff0000, 2);
-        // light.falloff = [-100, 1000, 0];
         scene.addChild(kill_light);
 
         kill_light.x = self.x;

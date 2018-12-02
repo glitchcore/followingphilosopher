@@ -20,16 +20,20 @@ function Tram(scene, stations, begin_idx) {
 
     self.addChild(body);
 
-    const light_t = new PIXI.lights.PointLight(0xff3b94, 1, 100);
+    const light_t = new PIXI.lights.PointLight(0xcc3b94, 2, 200);
+    light_t.lightHeight = 0.005;
     // light.falloff = [-100, 1000, 0];
     scene.addChild(light_t);
     
 
-    const light_b = new PIXI.lights.PointLight(0xff3b94, 1, 100);
+    const light_b = new PIXI.lights.PointLight(0xcc3b94, 2, 200);
+    light_b.lightHeight = 0.005;
     scene.addChild(light_b);
     
+    /*
     const light = new PIXI.lights.PointLight(0xffffff, 0.05, 40);
     scene.addChild(light);
+    */
     
 
     self.x = stations[current_idx].x;
@@ -70,8 +74,8 @@ function Tram(scene, stations, begin_idx) {
         light_b.x = self.x + (WIDTH/2 + LAMP_OFFSET) * Math.cos(self.rotation - LAMP_FORK); //  20 + * ;
         light_b.y = self.y + (WIDTH/2 + LAMP_OFFSET) * Math.sin(self.rotation - LAMP_FORK);
 
-        light.x = self.x;
-        light.y = self.y;
+        // light.x = self.x;
+        // light.y = self.y;
 
         if(self.v * self.rail_t / self.track_len > 1) {
             current_idx = next_station;
