@@ -216,7 +216,7 @@ function Game_scene(pixi) {
     player.x = 300;
     player.y = 200;
 
-    [
+    let mans = [
         {x: 699, y: 125},
         {x: 724, y: 125},
         {x: 757, y: 130},
@@ -261,6 +261,12 @@ function Game_scene(pixi) {
             if(hitTestRectangle(player, tram)) {
                 console.log("hit", idx);
             }
+            mans.forEach(man => {
+                if(man.alive && hitTestRectangle(man, tram)) {
+                    console.log("kill1");
+                    man.kill();
+                }
+            });
             tram.update(delta, now)
         });
         route_stations.forEach(station => {
@@ -277,6 +283,8 @@ function Game_scene(pixi) {
         if(!route_stations.some(station => hitTestRectangle(player, station))) {
             changing = false;
         }
+
+        mans.forEach(man => man.update());
     };
 
     scene.key_handler = (key, isPress) => {

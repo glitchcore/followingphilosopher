@@ -125,20 +125,60 @@ function Man(scene, color) {
 
     self.arm_scale = 1;
 
+    self.vr = [];
+    for(let i = 0; i < 4; i++) {
+        self.vr[i] = getRandomArbitrary(-0.1, 0.1);
+    }
+    self.v = [];
+    for(let i = 0; i < 10; i++) {
+        self.v[i] = getRandomArbitrary(-4, 4);
+    }
+
+    self.kill_mode = false;
+
+    self.alive = true;
+
+    let kill_light = null;
+
+    self.kill = () => {
+        kill_light = new PIXI.lights.PointLight(0xff0000, 2);
+        // light.falloff = [-100, 1000, 0];
+        scene.addChild(kill_light);
+
+        kill_light.x = self.x;
+        kill_light.y = self.y;
+
+        self.kill_mode = true;
+        self.alive = false;
+
+        setTimeout(() => {
+            self.kill_mode = false;
+            scene.removeChild(kill_light);
+        }, 1000);
+    };
+
     self.update = (delta, now) => {
 
-        /*
-        if(self.vx !== 0 && Math.abs(self.vy) < 0.5) {
-            self.right_leg.rotation = LEG_ANGLE + Math.sin(now/200 * self.vx) * 0.3;
-            self.left_leg.rotation = -LEG_ANGLE + Math.sin(now/200 * self.vx + Math.PI/5) * 0.3;
-        } else {
-            self.right_leg.rotation = LEG_ANGLE;
-            self.left_leg.rotation = -LEG_ANGLE;
-        }
+        if(self.kill_mode) {
+            
 
-        self.x += self.vx;
-        self.y += self.vy;
-        */
+            self.right_leg.rotation += self.vr[0];
+            self.left_leg.rotation += self.vr[0];
+            self.right_arm.rotation += self.vr[1];
+            self.left_arm.rotation += self.vr[2];
+
+            self.right_leg.x += self.v[0];
+            self.right_leg.y += self.v[1];
+            self.left_leg.x += self.v[2];
+            self.left_leg.y += self.v[3];
+            self.right_arm.x += self.v[4];
+            self.right_arm.y += self.v[5];
+            self.left_arm.x += self.v[6];
+            self.left_arm.y += self.v[7];
+
+            self.head.x += self.v[8];
+            self.head.y += self.v[9];
+        }
     };
 
     scene.addChild(self);

@@ -105,3 +105,8 @@ function create_geometry(texture_graphics, normal_graphics) {
 
     return res;
 }
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
+

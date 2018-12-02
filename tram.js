@@ -1,7 +1,3 @@
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
 function Tram(scene, stations, begin_idx) {
     let self = new Container();
 
