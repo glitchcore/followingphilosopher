@@ -93,13 +93,15 @@ function hitTestRectangle(r1, r2) {
   return hit;
 };
 
-function createPair(diffuseTex, normalTex) {
-    var container = new PIXI.Container();
-    var diffuseSprite = new PIXI.Sprite(diffuseTex);
-    diffuseSprite.parentGroup = PIXI.lights.diffuseGroup;
-    var normalSprite = new PIXI.Sprite(normalTex);
-    normalSprite.parentGroup = PIXI.lights.normalGroup;
-    container.addChild(diffuseSprite);
-    container.addChild(normalSprite);
-    return container;
+function create_geometry(texture_graphics, normal_graphics) {
+    let diffuse = Sprite.from(texture_graphics);
+    diffuse.parentGroup = diffuseGroup;
+
+    let normal = Sprite.from(normal_graphics);
+    normal.parentGroup = normalGroup;
+    
+    let res = new PIXI.Container();
+    res.addChild(diffuse, normal);
+
+    return res;
 }

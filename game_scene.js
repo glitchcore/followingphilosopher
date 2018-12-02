@@ -25,22 +25,19 @@ function Game_scene(pixi) {
 
     for (let x = 0; x < pixi.screen.width; x += 30) {
         for (let y = 0; y < pixi.screen.height; y += 30) {
-            let sq = new Graphics()
-                .beginFill(0x333333)
-                .drawRect(0, 0, 10, 10)
-                .endFill();
-            const sq_diffuse = Sprite.from(pixi.renderer.generateTexture(sq));
-            sq_diffuse.parentGroup = diffuseGroup;
-
-            let normal_sq = new Graphics()
-                .beginFill(0x8080ff)
-                .drawRect(0, 0, 2, 1)
-                .endFill();
-            const sq_normal = Sprite.from(pixi.renderer.generateTexture(normal_sq));
-            sq_normal.parentGroup = normalGroup;
-
-            var sq_block = new PIXI.Container();
-            sq_block.addChild(sq_normal, sq_diffuse);
+            let sq_block = create_geometry(
+                pixi.renderer.generateTexture(new Graphics()
+                    .beginFill(0x333333)
+                    .drawRect(0, 0, 4, 2)
+                    .endFill()
+                ),
+                pixi.renderer.generateTexture(new Graphics()
+                    .beginFill(0x8080ff)
+                    .drawRect(0, 0, 4, 2)
+                    .endFill()
+                )
+            );
+            
             scene.addChild(sq_block);
 
             sq_block.x = x;
@@ -56,40 +53,38 @@ function Game_scene(pixi) {
 
     stations.forEach(station => {
         if(station.next !== false) {
-            let g_diffuse = Sprite.from(pixi.renderer.generateTexture(new Graphics()
-                .lineStyle(5, 0xFFFFFF, 1)
-                .moveTo(0, 0)
-                .lineTo(
-                    Math.abs(stations[station.next].x - station.x),
-                    Math.abs(stations[station.next].y - station.y)
+            let g_0 = create_geometry(
+                pixi.renderer.generateTexture(new Graphics()
+                    .lineStyle(5, 0xFFFFFF, 1)
+                    .moveTo(0, 0)
+                    .lineTo(
+                        Math.abs(stations[station.next].x - station.x),
+                        Math.abs(stations[station.next].y - station.y)
+                    )
+                ),
+                pixi.renderer.generateTexture(new Graphics()
+                    .lineStyle(5, 0x8080ff, 1)
+                    .moveTo(0, 0)
+                    .lineTo(
+                        Math.abs(stations[station.next].x - station.x),
+                        Math.abs(stations[station.next].y - station.y)
+                    )
                 )
-            ));
-            g_diffuse.parentGroup = diffuseGroup;
-            let g_normal = Sprite.from(pixi.renderer.generateTexture(new Graphics()
-                .lineStyle(5, 0x8080ff, 1)
-                .moveTo(0, 0)
-                .lineTo(
-                    Math.abs(stations[station.next].x - station.x),
-                    Math.abs(stations[station.next].y - station.y)
-                )
-            ));
-            g_normal.parentGroup = normalGroup;
+            );
 
-            var g = new PIXI.Container();
-            g.addChild(g_diffuse, g_normal);
             if(stations[station.next].x - station.x >= 0) {
-                g.x = station.x;
+                g_0.x = station.x;
             } else {
-                g.x = stations[station.next].x;
+                g_0.x = stations[station.next].x;
             }
 
             if(stations[station.next].y - station.y >= 0) {
-                g.y = station.y;
+                g_0.y = station.y;
             } else {
-                g.y = stations[station.next].y;
+                g_0.y = stations[station.next].y;
             }
 
-            scene.addChild(g);
+            scene.addChild(g_0);
         }
 
         let s_diffuse = Sprite.from(pixi.renderer.generateTexture(new Graphics()
