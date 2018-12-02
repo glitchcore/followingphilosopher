@@ -221,7 +221,13 @@ function Game_scene(pixi) {
         {x: 724, y: 125},
         {x: 757, y: 130},
         {x: 780, y: 122},
-        {x: 732, y: 26}
+        {x: 732, y: 26},
+        {x: 575, y: 480},
+        {x: 527, y: 490-20},
+        {x: 492, y: 500-20},
+        {x: 452, y: 515-20},
+        {x: 481, y: 505-20},
+        {x: 548, y: 413-20},
     ].map(coord => {
         let man = Man(scene, 0xfafad2);
         man.x = coord.x;
@@ -276,20 +282,20 @@ function Game_scene(pixi) {
     scene.key_handler = (key, isPress) => {
         
         if(isPress && key === 39) {
-            player.vr = 0.2;
+            player.vr = 0.1;
         }
         if(isPress && key === 37) {
-            player.vr = -0.2;
+            player.vr = -0.1;
         }
         if(!isPress && (key === 39 || key === 37)) {
             player.vr = 0;
         }
 
         if(isPress && key === 40) {
-            player.v = 7;
+            player.v = 4;
         }
         if(isPress && key === 38) {
-            player.v = -7;
+            player.v = -4;
         }
         if(!isPress && (key === 38 || key === 40)) {
             player.v = 0;
