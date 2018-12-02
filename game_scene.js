@@ -203,7 +203,8 @@ function Game_scene(pixi) {
             s.idx = idx;
             route_stations.push(s);
 
-            const light = new PIXI.lights.PointLight(0xa6fd29, 0.5, 30);
+            const light = new PIXI.lights.PointLight(0xa6fd29, 0.5, 100);
+            light.lightHeight = 0.005;
             light.x = station.x;
             light.y = station.y;
 
