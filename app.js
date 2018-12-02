@@ -3,8 +3,31 @@ let key_handler = (key, isPress) => {};
 
 let intro_scene, game_scene;
 
+let stage = new Stage();
+let glitch_filter = new PIXI.filters.GlitchFilter();
+let crt_filter = new PIXI.filters.CRTFilter();
+crt_filter.curvature = 5.8;
+crt_filter.lineWidth = 3.8;
+crt_filter.lineContrast = 0.64;
+
+glitch_filter.red.x = -10;
+glitch_filter.blue.x = 14;
+glitch_filter.green.x = -20;
+glitch_filter.red.y = -5;
+glitch_filter.blue.y = 10;
+glitch_filter.green.y = -20;
+
+function disable_glitch() {
+    stage.filters = [];
+}
+
+function enable_glitch() {
+    stage.filters = [crt_filter, glitch_filter];
+    setTimeout(() => disable_glitch(), 500);
+}
+
 function app(pixi) {
-    var stage = pixi.stage = new Stage();
+    pixi.stage = stage;
 
     PIXI.utils.sayHello("Drop to stack begin!");
 
@@ -22,6 +45,18 @@ function app(pixi) {
     game_scene = Game_scene(pixi);
     game_scene.visible = false;
     stage.addChild(game_scene);
+
+    setInterval(() => {
+        if(stage.filters && stage.filters.length > 0) {
+            glitch_filter.refresh();
+            glitch_filter.red.x = getRandomArbitrary(-20,20);
+            glitch_filter.blue.x = getRandomArbitrary(-20,20);
+            glitch_filter.green.x = getRandomArbitrary(-20,20);
+            glitch_filter.red.y = getRandomArbitrary(-20,20);
+            glitch_filter.blue.y = getRandomArbitrary(-20,20);
+            glitch_filter.green.y = getRandomArbitrary(-20,20);
+        }
+    }, 50);
 
     window.addEventListener(
         "keydown",

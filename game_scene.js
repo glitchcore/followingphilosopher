@@ -261,6 +261,9 @@ function Game_scene(pixi) {
         trams.forEach((tram, idx) => {
             if(hitTestRectangle(player, tram)) {
                 console.log("hit", idx);
+                enable_glitch();
+                player.x = getRandomArbitrary(100, pixi.screen.width - 100);
+                player.y = getRandomArbitrary(100, pixi.screen.height - 100);
             }
             mans.forEach(man => {
                 if(man.alive && hitTestRectangle(man, tram)) {
