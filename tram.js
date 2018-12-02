@@ -10,7 +10,7 @@ function Tram(scene, stations, begin_idx) {
     const WIDTH = 80;
     const HEIGHT = 40;
 
-    self.v = 1;
+    self.v = 1.5;
 
     let body_diffuse = Sprite.fromImage('images/tram_texture.png');
     body_diffuse.parentGroup = diffuseGroup;
@@ -24,12 +24,12 @@ function Tram(scene, stations, begin_idx) {
 
     self.addChild(body);
 
-    const light_t = new PIXI.lights.PointLight(0xffffff, 1, 40);
+    const light_t = new PIXI.lights.PointLight(0xff3b94, 1, 40);
     // light.falloff = [-100, 1000, 0];
     scene.addChild(light_t);
     
 
-    const light_b = new PIXI.lights.PointLight(0xffffff, 1, 40);
+    const light_b = new PIXI.lights.PointLight(0xff3b94, 1, 40);
     scene.addChild(light_b);
     
     const light = new PIXI.lights.PointLight(0xffffff, 0.05, 40);
@@ -40,10 +40,11 @@ function Tram(scene, stations, begin_idx) {
     self.y = stations[current_idx].y;
 
     self.rail_t = 0;
+    let next_station = stations[current_idx].next[stations[current_idx].state];
 
     self.track_len = Math.sqrt(
-        Math.pow(stations[stations[current_idx].next].x - stations[current_idx].x, 2) + 
-        Math.pow(stations[stations[current_idx].next].y - stations[current_idx].y, 2)
+        Math.pow(stations[next_station].x - stations[current_idx].x, 2) + 
+        Math.pow(stations[next_station].y - stations[current_idx].y, 2)
     );
 
     scene.addChild(self);
@@ -52,16 +53,16 @@ function Tram(scene, stations, begin_idx) {
         self.rail_t += delta;
 
         self.x = stations[current_idx].x + (
-            stations[stations[current_idx].next].x - stations[current_idx].x
+            stations[next_station].x - stations[current_idx].x
         ) * self.v * self.rail_t / self.track_len + getRandomArbitrary(-2, 2);
 
         self.y = stations[current_idx].y + (
-            stations[stations[current_idx].next].y - stations[current_idx].y
+            stations[next_station].y - stations[current_idx].y
         ) * self.v * self.rail_t / self.track_len + getRandomArbitrary(-2, 2);
 
         self.rotation = Math.atan2(
-            stations[stations[current_idx].next].y - stations[current_idx].y,
-            stations[stations[current_idx].next].x - stations[current_idx].x
+            stations[next_station].y - stations[current_idx].y,
+            stations[next_station].x - stations[current_idx].x
         ) + getRandomArbitrary(-0.05, 0.05);
 
         const LAMP_OFFSET = 30;
@@ -77,12 +78,14 @@ function Tram(scene, stations, begin_idx) {
         light.y = self.y;
 
         if(self.v * self.rail_t / self.track_len > 1) {
-            current_idx = stations[current_idx].next;
+            current_idx = next_station;
+            next_station = stations[current_idx].next[stations[current_idx].state];
+
             self.rail_t = 0;
 
             self.track_len = Math.sqrt(
-                Math.pow(stations[stations[current_idx].next].x - stations[current_idx].x, 2) + 
-                Math.pow(stations[stations[current_idx].next].y - stations[current_idx].y, 2)
+                Math.pow(stations[next_station].x - stations[current_idx].x, 2) + 
+                Math.pow(stations[next_station].y - stations[current_idx].y, 2)
             );
         }
     }

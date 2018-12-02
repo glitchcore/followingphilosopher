@@ -35,7 +35,7 @@ function Player(scene, color) {
         .endFill();
     self.addChild(self.head);
 
-    const light = new PIXI.lights.PointLight(0xffffff, 2, 100);
+    const light = new PIXI.lights.PointLight(0x55ffe1, 1, 100);
     // light.falloff = [-100, 1000, 0];
     scene.addChild(light);
 
