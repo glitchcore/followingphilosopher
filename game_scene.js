@@ -216,15 +216,29 @@ function Game_scene(pixi) {
     player.x = 300;
     player.y = 200;
 
+    [
+        {x: 699, y: 125},
+        {x: 724, y: 125},
+        {x: 757, y: 130},
+        {x: 780, y: 122},
+        {x: 732, y: 26}
+    ].map(coord => {
+        let man = Man(scene, 0xfafad2);
+        man.x = coord.x;
+        man.y = coord.y;
+        return man;
+    });
+
     let trams = [
         Tram(scene, stations, 0),
+        /*
         Tram(scene, stations, 8),
         Tram(scene, stations, 14),
         Tram(scene, stations, 18),
         Tram(scene, stations, 24),
         Tram(scene, stations, 28),
+        */
     ];
-
 
     /*
     {
@@ -262,20 +276,20 @@ function Game_scene(pixi) {
     scene.key_handler = (key, isPress) => {
         
         if(isPress && key === 39) {
-            player.vr = 0.1;
+            player.vr = 0.2;
         }
         if(isPress && key === 37) {
-            player.vr = -0.1;
+            player.vr = -0.2;
         }
         if(!isPress && (key === 39 || key === 37)) {
             player.vr = 0;
         }
 
         if(isPress && key === 40) {
-            player.v = 4;
+            player.v = 7;
         }
         if(isPress && key === 38) {
-            player.v = -4;
+            player.v = -7;
         }
         if(!isPress && (key === 38 || key === 40)) {
             player.v = 0;
