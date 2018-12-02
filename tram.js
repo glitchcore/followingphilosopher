@@ -24,15 +24,15 @@ function Tram(scene, stations, begin_idx) {
 
     self.addChild(body);
 
-    const light_t = new PIXI.lights.PointLight(0xffffff, 1, 30);
+    const light_t = new PIXI.lights.PointLight(0xffffff, 1, 40);
     // light.falloff = [-100, 1000, 0];
     scene.addChild(light_t);
     
 
-    const light_b = new PIXI.lights.PointLight(0xffffff, 1, 30);
+    const light_b = new PIXI.lights.PointLight(0xffffff, 1, 40);
     scene.addChild(light_b);
     
-    const light = new PIXI.lights.PointLight(0xffffff, 0.2, 50);
+    const light = new PIXI.lights.PointLight(0xffffff, 0.05, 40);
     scene.addChild(light);
     
 

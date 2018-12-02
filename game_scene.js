@@ -37,7 +37,7 @@ function Game_scene(pixi) {
                     .endFill()
                 )
             );
-            
+
             scene.addChild(sq_block);
 
             sq_block.x = x;
@@ -45,17 +45,70 @@ function Game_scene(pixi) {
         }
     }
 
-    let player = Player(scene, 0x55ffe1);
-    player.x = 300;
-    player.y = 200;
-
-    let tram = Tram(scene, stations, 0);
-
     stations.forEach(station => {
         if(station.next !== false) {
-            let g_0 = create_geometry(
+            const RAIL_DISTANCE = 10;
+            const SLEEPER_SIZE = 14;
+            const SLEEPER_INTERVAL = 20;
+
+            const rail_angle = Math.atan2(
+                stations[station.next].x - station.x,
+                stations[station.next].y - station.y
+            ) + Math.PI/2;
+
+            const rail_length = Math.sqrt(
+                Math.pow(stations[station.next].x - station.x, 2) + 
+                Math.pow(stations[station.next].y - station.y, 2)
+            );
+
+            for(let t = 0; t < 1; t += SLEEPER_INTERVAL / rail_length) {
+                let sleeper = create_geometry(
+                    pixi.renderer.generateTexture(new Graphics()
+                        .lineStyle(5, 0x999999, 1)
+                        .moveTo(0, 0)
+                        .lineTo(0, SLEEPER_SIZE * 2)
+                    ),
+                    pixi.renderer.generateTexture(new Graphics()
+                        .lineStyle(5, 0x8080ff, 1)
+                        .moveTo(0, 0)
+                        .lineTo(0, SLEEPER_SIZE * 2)
+                    )
+                );
+                scene.addChild(sleeper);
+
+                sleeper.x = station.x + (
+                    stations[station.next].x - station.x
+                ) * t + SLEEPER_SIZE * 1 * Math.sin(rail_angle + Math.PI);
+                sleeper.y = station.y + (
+                    stations[station.next].y - station.y
+                ) * t + SLEEPER_SIZE * 1 * Math.cos(rail_angle + Math.PI);
+
+                sleeper.rotation = -rail_angle;// + Math.PI;
+            }
+
+
+            let rail_0 = create_geometry(
                 pixi.renderer.generateTexture(new Graphics()
-                    .lineStyle(5, 0xFFFFFF, 1)
+                    .lineStyle(3, 0xFFFFFF, 1)
+                    .moveTo(0, 0)
+                    .lineTo(
+                        Math.abs(stations[station.next].x - station.x),
+                        Math.abs(stations[station.next].y - station.y)
+                    )
+                ),
+                pixi.renderer.generateTexture(new Graphics()
+                    .lineStyle(3, 0x8080ff, 1)
+                    .moveTo(0, 0)
+                    .lineTo(
+                        Math.abs(stations[station.next].x - station.x),
+                        Math.abs(stations[station.next].y - station.y)
+                    )
+                )
+            );
+
+            let rail_1 = create_geometry(
+                pixi.renderer.generateTexture(new Graphics()
+                    .lineStyle(3, 0xFFFFFF, 1)
                     .moveTo(0, 0)
                     .lineTo(
                         Math.abs(stations[station.next].x - station.x),
@@ -73,18 +126,23 @@ function Game_scene(pixi) {
             );
 
             if(stations[station.next].x - station.x >= 0) {
-                g_0.x = station.x;
+                rail_0.x = station.x - RAIL_DISTANCE * Math.sin(rail_angle);
+                rail_1.x = station.x + RAIL_DISTANCE * Math.sin(rail_angle);
             } else {
-                g_0.x = stations[station.next].x;
+                rail_0.x = stations[station.next].x - RAIL_DISTANCE * Math.sin(rail_angle);
+                rail_1.x = stations[station.next].x + RAIL_DISTANCE * Math.sin(rail_angle);
             }
 
             if(stations[station.next].y - station.y >= 0) {
-                g_0.y = station.y;
+                rail_0.y = station.y - RAIL_DISTANCE * Math.cos(rail_angle);
+                rail_1.y = station.y + RAIL_DISTANCE * Math.cos(rail_angle);
             } else {
-                g_0.y = stations[station.next].y;
+                rail_0.y = stations[station.next].y - RAIL_DISTANCE * Math.cos(rail_angle);
+                rail_1.y = stations[station.next].y + RAIL_DISTANCE * Math.cos(rail_angle);
             }
 
-            scene.addChild(g_0);
+            scene.addChild(rail_0);
+            scene.addChild(rail_1);
         }
 
         let s_diffuse = Sprite.from(pixi.renderer.generateTexture(new Graphics()
@@ -107,6 +165,12 @@ function Game_scene(pixi) {
         s.y = station.y;
         scene.addChild(s);
     });
+
+    let player = Player(scene, 0x55ffe1);
+    player.x = 300;
+    player.y = 200;
+
+    let tram = Tram(scene, stations, 0);
 
     /*
     {

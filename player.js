@@ -11,14 +11,6 @@ function Player(scene, color) {
 
     self.walk_t = 0;
 
-    /*
-    self.right_leg = new Graphics()
-        .lineStyle(LINE_WIDTH, color, 1)
-        .moveTo(0, 0)
-        .lineTo(LEG_LENGTH, 0);
-    self.addChild(self.right_leg);
-    */
-
     self.body = new Graphics()
         .beginFill(color)
         .drawRoundedRect(-BODY_RADIUS/2, -BODY_RADIUS/4, BODY_RADIUS, BODY_RADIUS/2, LEG_RADIUS)
