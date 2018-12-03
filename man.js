@@ -154,6 +154,9 @@ function Man(scene, color) {
         setTimeout(() => {
             self.kill_mode = false;
             scene.removeChild(kill_light);
+
+            self.head.visible = false;
+            self.right_leg.visible = false;
         }, 700);
     };
 

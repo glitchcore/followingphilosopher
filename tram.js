@@ -29,12 +29,6 @@ function Tram(scene, stations, begin_idx) {
     const light_b = new PIXI.lights.PointLight(0xcc3b94, 2, 200);
     light_b.lightHeight = 0.005;
     scene.addChild(light_b);
-    
-    /*
-    const light = new PIXI.lights.PointLight(0xffffff, 0.05, 40);
-    scene.addChild(light);
-    */
-    
 
     self.x = stations[current_idx].x;
     self.y = stations[current_idx].y;

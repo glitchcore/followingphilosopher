@@ -43,6 +43,19 @@ let RED_STYLE_H2 = new PIXI.TextStyle({
   dropShadowDistance: 3,
 });
 
+let WHITE_STYLE_H2 = new PIXI.TextStyle({
+  fontFamily: "Arial",
+  fontSize: 32,
+  fill: "#af3dff",
+  stroke: '#ff3b94',
+  strokeThickness: 1,
+  dropShadow: true,
+  dropShadowColor: "#55ffe1",
+  dropShadowBlur: 15,
+  dropShadowAngle: Math.PI / 7,
+  dropShadowDistance: 3,
+});
+
 function hitTestRectangle(r1, r2) {
   //Define the variables we'll need to calculate
   let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;

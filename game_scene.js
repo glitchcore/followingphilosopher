@@ -25,7 +25,7 @@ function Game_scene(pixi) {
         {x: 938, y: 131, state:0, next:[8]},
         {x: 1039, y: 224, state:0, next:[9]},
         {x: 1049, y: 327, state:0, next:[10]},
-        {x: 1013, y: 496, state:0, next:[11]},
+        {x: 1013, y: 496, state:0, next:[30, 11]},
         {x: 902, y: 548, state:0, next:[12]},
         {x: 591, y: 610, state:0, next:[13]},
         {x: 328, y: 567, state:0, next:[14]},
@@ -44,7 +44,14 @@ function Game_scene(pixi) {
         {x: 270, y: 326, state:0, next:[27]},
         {x: 306, y: 235, state:0, next:[28]},
         {x: 245, y: 103, state:0, next:[29]},
-        {x: 140, y: 231, state:0, next:[15]},
+        {x: 140, y: 231, state:0, next:[0]},
+        {x: 1018, y: 622, state:0, next:[31]},
+        {x: 887, y: 648, state:0, next:[32]},
+        {x: 811, y: 537, state:0, next:[33]},
+        {x: 787, y: 381, state:0, next:[34]},
+        {x: 673, y: 311, state:0, next:[35]},
+        {x: 547, y: 275, state:0, next:[36]},
+        {x: 434, y: 257, state:0, next:[27]}
     ];
 
     scene.interactive = true;
@@ -53,6 +60,7 @@ function Game_scene(pixi) {
         console.log("click!", e.data.global);
     }
 
+    let mans = [];
 
     const margin_left = 250;
 
@@ -84,8 +92,10 @@ function Game_scene(pixi) {
 
     let route_stations = [];
 
-    let statistics = new Text("0", RED_STYLE_H2);
-    statistics.position.set(pixi.screen.width - 128, 10);
+    let murders = 10;
+
+    let statistics = new Text("kill " + murders + " to win", RED_STYLE_H2);
+    statistics.position.set(pixi.screen.width - 200, 10);
     scene.addChild(statistics);
 
     stations.forEach((station, idx) => {
@@ -221,30 +231,32 @@ function Game_scene(pixi) {
     player.x = 420;
     player.y = 200;
 
-    let mans = [
-        {x: 699, y: 125},
-        {x: 724, y: 125},
-        {x: 757, y: 130},
-        {x: 780, y: 122},
-        {x: 732, y: 26},
-        {x: 575, y: 480},
-        {x: 527, y: 490-20},
-        {x: 492, y: 500-20},
-        {x: 452, y: 515-20},
-        {x: 481, y: 505-20},
-        {x: 548, y: 413-20},
-    ].map(coord => {
-        let man = Man(scene, 0xfafad2);
-        man.x = coord.x;
-        man.y = coord.y;
-        return man;
-    });
-
     let trams = [
         Tram(scene, stations, 25),
         Tram(scene, stations, 8),
-        Tram(scene, stations, 13),
+        Tram(scene, stations, 15),
     ];
+
+    let spawn = () => {
+        console.log("spawn");
+        let man = Man(scene, 0xfafad2);
+        let station = stations[Math.floor(getRandomArbitrary(0, stations.length))];
+        let next_station = stations[station.next[station.state]];
+
+        man.x = station.x + (
+            next_station.x - station.x
+        ) * getRandomArbitrary(0, 1);
+        man.y = station.y + (
+            next_station.y - station.y
+        ) * getRandomArbitrary(0, 1);
+
+        mans.push(man);
+
+        murders += 1;
+        statistics.text  = "kill " + murders + " to win";
+
+        setTimeout(spawn, getRandomArbitrary(3000, 10000));
+    };
 
     /*
     {
@@ -264,13 +276,14 @@ function Game_scene(pixi) {
                 player.x = getRandomArbitrary(100, pixi.screen.width - 100);
                 player.y = getRandomArbitrary(100, pixi.screen.height - 100);
             }
-            mans.forEach(man => {
-                if(man.alive && hitTestRectangle(man, tram)) {
+            mans.forEach((man, idx) => {
+                if(hitTestRectangle(man, tram) && man.alive) {
                     console.log("kill1");
                     man.kill();
                     let _kill_sound = kill_sound.cloneNode();
                     _kill_sound.play();
-                    statistics.text  = parseInt(statistics.text) + 1;
+                    murders -= 1;
+                    statistics.text  = "kill " + murders + " to win";
                 }
             });
             tram.update(delta, now)
@@ -291,11 +304,25 @@ function Game_scene(pixi) {
             changing = false;
         }
 
-        mans.forEach(man => man.update());
+        mans.forEach((man, idx) => {
+            man.update();
+            if(!man.alive && !man.kill_mode) {
+                mans.splice(idx, 1);
+            }
+        });
+
+        if(murders === 0) {
+            select_scene(win_scene);
+        }
     };
 
     scene.key_handler = (key, isPress) => {
-        
+        if(isPress === true) {
+            if(key === 13) { // pressed enter
+                select_scene(intro_scene);
+            }
+        }
+
         if(isPress && key === 39) {
             player.vr = 0.1;
         }
@@ -307,10 +334,10 @@ function Game_scene(pixi) {
         }
 
         if(isPress && key === 40) {
-            player.v = 4;
+            player.v = 6;
         }
         if(isPress && key === 38) {
-            player.v = -4;
+            player.v = -6;
         }
         if(!isPress && (key === 38 || key === 40)) {
             player.v = 0;
@@ -318,6 +345,31 @@ function Game_scene(pixi) {
     };
 
     scene.select = () => {
+        console.log("select game scene");
+        setTimeout(spawn, getRandomArbitrary(2000, 10000));
+        mans.forEach(man => scene.removeChild(man));
+
+        player.vr = 0;
+        player.v = 0;
+
+        murders = 7;
+
+        mans = [
+            {x: 699, y: 125},
+            {x: 724, y: 125},
+            {x: 757, y: 130},
+            {x: 732, y: 26},
+            {x: 558, y: 416-20},
+            {x: 527, y: 490-20},
+            {x: 492, y: 500-20},
+            {x: 452, y: 515-20},
+        ].map(coord => {
+            let man = Man(scene, 0xfafad2);
+            man.x = coord.x;
+            man.y = coord.y;
+            return man;
+        });
+
 
     };
 

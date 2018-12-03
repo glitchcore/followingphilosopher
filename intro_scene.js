@@ -18,19 +18,45 @@ function Intro_scene(pixi) {
     }
 
     {
-        let message = new Text("Le but de la philosophie est de penser par soi-même", RED_STYLE_H2);
-        message.position.set(pixi.screen.width/2 - margin_left, 200);
+        let message = new Text("1. every birth take you away from win", WHITE_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 100, 150);
         scene.addChild(message);
     }
     {
-        let message = new Text("(Emmanuel Kant)", RED_STYLE_H2);
-        message.position.set(pixi.screen.width/2 - margin_left + 500, 240);
+        let message = new Text("3. every kill makes you more deliberate", WHITE_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 100, 200);
+        scene.addChild(message);
+    }
+    {
+        let message = new Text("*. touch semaphore for change trolley direction", WHITE_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 100, 240);
+        scene.addChild(message);
+    }
+    {
+        let message = new Text("8. trolley is not your friend", WHITE_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 100, 280);
         scene.addChild(message);
     }
 
     {
-        let message = new Text("[press EN7er]", RED_STYLE_H2);
-        message.position.set(pixi.screen.width/2 - margin_left - 100, 300);
+        let message = new Text("[arrw key to m0ve]", WHITE_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 50, 320);
+        scene.addChild(message);
+    }
+    {
+        let message = new Text("[press EN7er for begin/restart]", WHITE_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 64, 360);
+        scene.addChild(message);
+    }
+
+    {
+        let message = new Text("Happiness is not an ideal of reason but of imagination", RED_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left, 540);
+        scene.addChild(message);
+    }
+    {
+        let message = new Text("(Emmanuel Kant)", RED_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left + 500, 580);
         scene.addChild(message);
     }
 

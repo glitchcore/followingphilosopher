@@ -5,7 +5,7 @@ function Player(scene, color) {
     const LEG_RADIUS = 15/2;
     const HEAD_RADIUS = 20/2;
 
-    const LIGHT_DISTANCE = 50;
+    const LIGHT_DISTANCE = 80;
 
     let self = new Container();
     self.v = 0;
@@ -37,8 +37,8 @@ function Player(scene, color) {
         .endFill();
     self.addChild(self.head);
 
-    const light = new PIXI.lights.PointLight(0x55ffe1, 2, 300);
-    light.lightHeight = 0.002;
+    const light = new PIXI.lights.PointLight(0x55ffe1, 2, 100);
+    light.lightHeight = 0.02;
     scene.addChild(light);
 
     //const light_1 = new PIXI.lights.PointLight(0xffffff, 0.15, 50);

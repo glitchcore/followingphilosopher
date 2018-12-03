@@ -1,7 +1,7 @@
 let update = () => {};
 let key_handler = (key, isPress) => {};
 
-let intro_scene, game_scene;
+let intro_scene, game_scene, win_scene;
 
 let stage = new Stage();
 let glitch_filter = new PIXI.filters.GlitchFilter();
@@ -33,7 +33,7 @@ function enable_glitch() {
 function app(pixi) {
     pixi.stage = stage;
 
-    PIXI.utils.sayHello("Drop to stack begin!");
+    PIXI.utils.sayHello("Philosolhe begin!");
 
     music.volume = 0.5;
     music.loop = true;
@@ -53,6 +53,10 @@ function app(pixi) {
     game_scene = Game_scene(pixi);
     game_scene.visible = false;
     stage.addChild(game_scene);
+
+    win_scene = Win_scene(pixi);
+    win_scene.visible = false;
+    stage.addChild(win_scene);
 
     setInterval(() => {
         if(stage.filters && stage.filters.length > 0) {
@@ -90,6 +94,7 @@ function app(pixi) {
 
     // select_scene(game_scene);
     select_scene(intro_scene);
+    // select_scene(win_scene);
 
     /*var block = new PIXI.Container();
     const block_diffuse = Sprite.fromImage('images/block.png');
