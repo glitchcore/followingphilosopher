@@ -17,6 +17,10 @@ glitch_filter.red.y = -5;
 glitch_filter.blue.y = 10;
 glitch_filter.green.y = -20;
 
+let semaphore_sound = new Audio('semaphore_01.mp3');
+let kill_sound = new Audio('kill_01.mp3');
+let music = new Audio('following_01.mp3');
+
 function disable_glitch() {
     stage.filters = [];
 }
@@ -30,6 +34,10 @@ function app(pixi) {
     pixi.stage = stage;
 
     PIXI.utils.sayHello("Drop to stack begin!");
+
+    music.volume = 0.5;
+    music.loop = true;
+    music.play();
 
     stage.addChild(
         // put all layers for deferred rendering of normals

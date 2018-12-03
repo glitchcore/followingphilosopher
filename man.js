@@ -141,7 +141,8 @@ function Man(scene, color) {
     let kill_light = null;
 
     self.kill = () => {
-        kill_light = new PIXI.lights.PointLight(0xff0000, 2);
+        kill_light = new PIXI.lights.PointLight(0xff0000, 3);
+        kill_light.lightHeight = 0.1;
         scene.addChild(kill_light);
 
         kill_light.x = self.x;
@@ -153,7 +154,7 @@ function Man(scene, color) {
         setTimeout(() => {
             self.kill_mode = false;
             scene.removeChild(kill_light);
-        }, 1000);
+        }, 700);
     };
 
     self.update = (delta, now) => {

@@ -84,6 +84,10 @@ function Game_scene(pixi) {
 
     let route_stations = [];
 
+    let statistics = new Text("0", RED_STYLE_H2);
+    statistics.position.set(pixi.screen.width - 128, 10);
+    scene.addChild(statistics);
+
     stations.forEach((station, idx) => {
         station.next.forEach(next_station => {
             const rail_angle = Math.atan2(
@@ -264,6 +268,9 @@ function Game_scene(pixi) {
                 if(man.alive && hitTestRectangle(man, tram)) {
                     console.log("kill1");
                     man.kill();
+                    let _kill_sound = kill_sound.cloneNode();
+                    _kill_sound.play();
+                    statistics.text  = parseInt(statistics.text) + 1;
                 }
             });
             tram.update(delta, now)
@@ -275,6 +282,7 @@ function Game_scene(pixi) {
                     station.rotation += Math.PI;
                     stations[station.idx].state ^= 1;
                     changing = true;
+                    semaphore_sound.play();
                 }
             }
         });
