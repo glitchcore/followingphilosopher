@@ -80,7 +80,8 @@ function app(pixi) {
 
     pixi.ticker.add(delta => update(delta, performance.now()));
 
-    select_scene(game_scene);
+    // select_scene(game_scene);
+    select_scene(intro_scene);
 
     /*var block = new PIXI.Container();
     const block_diffuse = Sprite.fromImage('images/block.png');

@@ -12,8 +12,25 @@ function Intro_scene(pixi) {
 
 
     {
-        let message = new Text("WELCOME TO LD43", RED_STYLE_H1);
+        let message = new Text("FOLLOWING PHILOSOPHER", RED_STYLE_H1);
         message.position.set(pixi.screen.width/2 - margin_left, 50);
+        scene.addChild(message);
+    }
+
+    {
+        let message = new Text("Le but de la philosophie est de penser par soi-même", RED_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left, 200);
+        scene.addChild(message);
+    }
+    {
+        let message = new Text("(Emmanuel Kant)", RED_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left + 500, 240);
+        scene.addChild(message);
+    }
+
+    {
+        let message = new Text("[press EN7er]", RED_STYLE_H2);
+        message.position.set(pixi.screen.width/2 - margin_left - 100, 300);
         scene.addChild(message);
     }
 
@@ -22,7 +39,7 @@ function Intro_scene(pixi) {
         .drawRect(10, 210, 20, 34)
         .endFill();
 
-    scene.addChild(cursor);
+    // scene.addChild(cursor);
 
     let code_text = [];
     function add_letter(letter) {
@@ -60,7 +77,7 @@ function Intro_scene(pixi) {
     scene.key_handler = (key, isPress) => {
         if(isPress === true) {
             if(key === 13) { // pressed enter
-                let code = code_text.map(item => item.letter).join("");
+                select_scene(game_scene);
             }
 
             if(key === 8) {

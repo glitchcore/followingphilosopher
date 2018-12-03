@@ -214,7 +214,7 @@ function Game_scene(pixi) {
     });
 
     let player = Player(scene, 0x55ffe1);
-    player.x = 300;
+    player.x = 420;
     player.y = 200;
 
     let mans = [
@@ -237,14 +237,9 @@ function Game_scene(pixi) {
     });
 
     let trams = [
-        Tram(scene, stations, 0),
-        /*
+        Tram(scene, stations, 25),
         Tram(scene, stations, 8),
-        Tram(scene, stations, 14),
-        Tram(scene, stations, 18),
-        Tram(scene, stations, 24),
-        Tram(scene, stations, 28),
-        */
+        Tram(scene, stations, 13),
     ];
 
     /*
