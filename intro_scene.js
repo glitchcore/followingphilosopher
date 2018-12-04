@@ -39,12 +39,12 @@ function Intro_scene(pixi) {
     }
 
     {
-        let message = new Text("[arrw key to m0ve]", WHITE_STYLE_H2);
+        let message = new Text("[WASD or arrw key to m0ve]", WHITE_STYLE_H2);
         message.position.set(pixi.screen.width/2 - margin_left - 50, 320);
         scene.addChild(message);
     }
     {
-        let message = new Text("[press EN7er for begin/restart]", WHITE_STYLE_H2);
+        let message = new Text("[press ENter for begin/restart]", WHITE_STYLE_H2);
         message.position.set(pixi.screen.width/2 - margin_left - 64, 360);
         scene.addChild(message);
     }

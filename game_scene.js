@@ -323,23 +323,23 @@ function Game_scene(pixi) {
             }
         }
 
-        if(isPress && key === 39) {
+        if(isPress && (key === 39 || key === 68)) {
             player.vr = 0.1;
         }
-        if(isPress && key === 37) {
+        if(isPress && (key === 37 || key === 65)) {
             player.vr = -0.1;
         }
-        if(!isPress && (key === 39 || key === 37)) {
+        if(!isPress && (key === 39 || key === 37 || key === 68 || key === 65)) {
             player.vr = 0;
         }
 
-        if(isPress && key === 40) {
+        if(isPress && (key === 40 || key === 83)) {
             player.v = 6;
         }
-        if(isPress && key === 38) {
+        if(isPress && (key === 38 || key === 87)) {
             player.v = -6;
         }
-        if(!isPress && (key === 38 || key === 40)) {
+        if(!isPress && (key === 38 || key === 40 || key === 83 || key === 87)) {
             player.v = 0;
         }
     };
