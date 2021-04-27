@@ -1,3 +1,40 @@
+function Pre_intro_scene(pixi) {
+    let scene = new Container();
+
+    let background = new Graphics()
+        .beginFill(0x000000)
+        .drawRect(0, 0, pixi.screen.width, pixi.screen.height)
+        .endFill();
+
+    scene.addChild(background);
+
+
+    {
+        let message = new Text("Click to begin", RED_STYLE_H1);
+        message.position.set(pixi.screen.width/2 - 100, pixi.screen.height/2);
+        scene.addChild(message);
+    }
+
+    scene.interactive = true;
+    scene.click = function(e) {
+        console.log("click");
+        select_scene(intro_scene);
+    }
+
+    scene.update = (delta, now) => {
+
+    };
+
+    scene.key_handler = (key, isPress) => {
+        
+    };
+
+    scene.select = () => {
+    };
+
+    return scene;
+}
+
 function Intro_scene(pixi) {
     let scene = new Container();
 
@@ -105,22 +142,13 @@ function Intro_scene(pixi) {
             if(key === 13) { // pressed enter
                 select_scene(game_scene);
             }
-
-            if(key === 8) {
-                // console.log("delete character");
-                remove_letter();
-            }
-
-            if(key > 46 && key < 91 || key === 32) {
-                let char = String.fromCharCode(key);
-                // console.log("press:", char);
-                add_letter(char);
-            }
         }
     };
 
     scene.select = () => {
-        clear_letter();
+        music.volume = 0.5;
+        music.loop = true;
+        music.play();
     };
 
     return scene;

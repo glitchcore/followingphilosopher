@@ -1,7 +1,7 @@
 let update = () => {};
 let key_handler = (key, isPress) => {};
 
-let intro_scene, game_scene, win_scene;
+let intro_scene, game_scene, win_scene, pre_scene;
 
 let stage = new Stage();
 let glitch_filter = new PIXI.filters.GlitchFilter();
@@ -35,16 +35,16 @@ function app(pixi) {
 
     PIXI.utils.sayHello("Philosolhe begin!");
 
-    music.volume = 0.5;
-    music.loop = true;
-    music.play();
-
     stage.addChild(
         // put all layers for deferred rendering of normals
         new Layer(diffuseGroup),
         new Layer(normalGroup),
         new Layer(lightGroup),
     );
+
+    pre_scene = Pre_intro_scene(pixi);
+    pre_scene.visible = false;
+    stage.addChild(pre_scene);
 
     intro_scene = Intro_scene(pixi);
     intro_scene.visible = false;
@@ -93,8 +93,9 @@ function app(pixi) {
     pixi.ticker.add(delta => update(delta, performance.now()));
 
     // select_scene(game_scene);
-    select_scene(intro_scene);
+    // select_scene(intro_scene);
     // select_scene(win_scene);
+    select_scene(pre_scene);
 
     /*var block = new PIXI.Container();
     const block_diffuse = Sprite.fromImage('images/block.png');
